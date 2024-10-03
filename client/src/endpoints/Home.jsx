@@ -1,15 +1,21 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Button from 'react-bootstrap/Button';
+import Auth from '../utils/auth';
 
 export default function Home() {
     const [accessToken, setAccessToken] = useState(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
-        if (!accessToken) {
-            setAccessToken(localStorage.getItem('accessToken'))
+        if (Auth.isTokenExpired()) {
+            console.log('Token Expired');
+            navigate('/');
+        } else {
+            const token = Auth.getToken();
+            setAccessToken(token.token)
         }
-    }, [accessToken])
-
-    // const navigate = useNavigate();
+    }, [navigate])
 
     const getAccessToken = () => {
         const redirectUri = encodeURIComponent(import.meta.env.VITE_REDIRECT_URI);
@@ -23,11 +29,11 @@ export default function Home() {
       <div>
         {!accessToken? 
         (
-            <button onClick={getAccessToken}>Login with Spotify</button>  
+            <Button onClick={getAccessToken}>Login with Spotify</Button>  
         ) : (
             <div>
-                <p>View top songs</p>
-                <p>View Top artists</p>
+                <Button >View top songs</Button>
+                <Button>View Top artists</Button>
             </div>
         )
         }
