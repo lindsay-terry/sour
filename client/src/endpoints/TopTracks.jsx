@@ -1,12 +1,15 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import AllTimeTracks from '../components/AllTimeTracks';
+import ViewTracks from '../components/ViewTracks';
 import Auth from '../utils/auth';
 
 export default function TopTracks() {
     const [accessToken, setAccessToken] = useState(null);
-    const [allTimeTracks, setAllTimeTracks] = useState({ items: [] });
+    // const [allTimeTracks, setAllTimeTracks] = useState({ items: [] });
+    const [tracklist, setTracklist] = useState({ items: [] });
     const navigate = useNavigate();
+
+    const [listeningTerm, setListeningTerm] = useState('');
 
     console.log('ISEXPIRED?', Auth.isTokenExpired())
 
@@ -20,11 +23,15 @@ export default function TopTracks() {
         }
     }, [navigate])
 
+    //long_term
+    //medium_term
+    //short_term
+
 
     const handleTrackQuery = useCallback(async () => {
         if (accessToken) {
             try {
-                const response = await fetch('https:////api.spotify.com/v1/me/top/tracks?time_range=long_term', {
+                const response = await fetch(`https:////api.spotify.com/v1/me/top/tracks?time_range=${listeningTerm}`, {
                     method: 'GET',
                     headers: {
                         'Authorization': `Bearer ${accessToken}`
@@ -36,15 +43,15 @@ export default function TopTracks() {
                 }
 
                 const data = await response.json();
-                console.log(data);
-                setAllTimeTracks(data);
+                setTracklist(data);
+
                 
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
         } 
-    }, [accessToken])
-    console.log('ALL TIME TRACKS:', allTimeTracks);
+    }, [accessToken, listeningTerm])
+
     useEffect(() => {
         handleTrackQuery();
     }, [accessToken, handleTrackQuery])
@@ -52,7 +59,8 @@ export default function TopTracks() {
     return (
         <div>
             <p>Top Tracks</p>
-            <AllTimeTracks tracks={allTimeTracks}/>
+            <ViewTracks tracks={tracklist} timeframe={listeningTerm}/>
+
         </div>
     )
 }
