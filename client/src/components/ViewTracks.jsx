@@ -4,7 +4,7 @@ import DynamicBackground from './DynamicBackground';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import PropTypes from 'prop-types';
-import TrackPreview from './TrackPreview';
+import ReactAudioPlayer from 'react-audio-player';
 import { useState, useEffect } from 'react';
 
 
@@ -37,10 +37,16 @@ export default function ViewTracks({ tracks, timeframe }) {
     useEffect(() => {
         if (tracks) {
             setAllTracks(tracks.items);
-            setImageUrl(allTracks.length > 0 ? allTracks[0].album.images[1].url : '')
-            // const imageUrl = allTracks.length > 0 ? allTracks[0].album.images[1].url : '';
         }
-    }, [tracks, allTracks, setImageUrl]);
+    }, [tracks]);
+
+    useEffect(() => {
+        if (allTracks.length > 0) {
+            setImageUrl(allTracks[0].album.images[1].url);
+        } else {
+            setImageUrl('');
+        }
+    }, [allTracks]);
 
     return (
         <DynamicBackground image={imageUrl} >
@@ -54,8 +60,16 @@ export default function ViewTracks({ tracks, timeframe }) {
                             <Card.Img variant="top" src={track.album.images[1].url} />
                             <Card.Body>
                                 <Card.Title>{track.name} by {track.artists[0].name}</Card.Title>
+                                    {track.preview_url ? (
+                                        <ReactAudioPlayer
+                                            src={track.preview_url}
+                                            controls
+                                            onError={(error) => console.log('Audio playback error', error)}
+                                        />
+                                        ) : (
+                                            <p>No preview available</p>
+                                    )}
                             </Card.Body>
-                            <TrackPreview previewURL={track.preview_url}/>
                         </Card>
                     </Col>
                 ))}

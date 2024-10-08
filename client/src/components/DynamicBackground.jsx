@@ -16,7 +16,6 @@ export default function DynamicBackground({ image, children }) {
         if (palette && palette.length > 0) {
             setBackground(`linear-gradient(to bottom, ${palette[0]}, ${palette[1]})`);
             setMainColor(color);
-            console.log(mainColor);
         }
     }, [palette, color, mainColor]);
 
