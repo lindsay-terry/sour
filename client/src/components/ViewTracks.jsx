@@ -63,14 +63,6 @@ export default function ViewTracks({ tracks, timeframe }) {
         }
     }, [allTracks]);
 
-    // const showTitle = () => {
-
-    // }
-
-    // const unShowTitle = () => {
-        
-    // }
-
     return (
         <DynamicBackground image={imageUrl} >
         <div className='d-flex flex-column align-items-center' >
@@ -102,8 +94,6 @@ export default function ViewTracks({ tracks, timeframe }) {
                                     </div>
                                 </div>
                             <Card.Body>
-                                {/* <Card.Title>{track.name} by {track.artists[0].name}</Card.Title> */}
-                                {/* <Card.Text> */}
                                     {track.preview_url ? (
                                         <ReactAudioPlayer
                                             src={track.preview_url}
@@ -115,7 +105,6 @@ export default function ViewTracks({ tracks, timeframe }) {
                                         ) : (
                                             <p>No preview available</p>
                                     )}
-                                {/* </Card.Text> */}
                             </Card.Body>
                         </Card>
                     </Col>
