@@ -2,6 +2,7 @@ import Card from 'react-bootstrap/Card';
 import Container from 'react-bootstrap/Container';
 import DynamicBackground from './DynamicBackground';
 import PopularityMeter from './PopularityMeter';
+import ArtistStats from './ArtistStats';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import PropTypes from 'prop-types';
@@ -73,6 +74,7 @@ export default function ViewArtists({ artists, timeframe}) {
                                             </h3>
                                             <Card.Body className={'d-flex justify-content-between'}>
                                                 <PopularityMeter popularity={artist.popularity} name={artist.name}/>
+                                                <ArtistStats genres={artist.genres} followers={artist.followers.total}/>
                                             </Card.Body>
                                         </div>
                                     </DynamicBackground>
