@@ -7,8 +7,6 @@ import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
 
 export default function ViewArtists({ artists, timeframe}) {
-    console.log(artists);
-
     const styles = {
         cardImage: {
             transition: 'filter 0.3s ease',
@@ -55,7 +53,6 @@ export default function ViewArtists({ artists, timeframe}) {
                                 <h3 className={'mx-4'}>{index+1}.</h3>
                                 <Card className={'my-2'} style={styles.card}>
                                     <DynamicBackground image={artist.images[1].url}>
-                                        
                                         <div className={'d-flex flex-column align-items-center flex-sm-row w-100'}> 
                                             <Card.Img variant="top"
                                                 src={artist.images[1].url}
