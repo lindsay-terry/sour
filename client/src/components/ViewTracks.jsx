@@ -8,8 +8,7 @@ import ReactAudioPlayer from 'react-audio-player';
 import { useState, useEffect } from 'react';
 
 
-export default function ViewTracks({ tracks, timeframe }) {
-
+export default function ViewTracks({ tracks }) {
     const styles = {
         customAudioPlayer: {
             width: '100%',
@@ -35,20 +34,6 @@ export default function ViewTracks({ tracks, timeframe }) {
     const [imageUrl, setImageUrl] = useState('');
     const [hoveredImage, setHoveredImage] = useState(null);
 
-    let heading;
-    // Switch/Case to handle heading based on timeframe of query
-    switch(timeframe) {
-        case 'long_term':
-            heading = 'All-Time Top Tracks';
-            break;
-        case 'medium_term':
-            heading = '6 Month Top Tracks';
-            break;
-        case 'short_term':
-            heading= 'Top Tracks This Month';
-            break;
-    }
-
     useEffect(() => {
         if (tracks) {
             setAllTracks(tracks.items);
@@ -66,7 +51,6 @@ export default function ViewTracks({ tracks, timeframe }) {
     return (
         <DynamicBackground image={imageUrl} >
         <div className='d-flex flex-column align-items-center' >
-            <h1>{heading}</h1>
             <Container>
                 <Row>
                 {allTracks.map((track, index) => (
@@ -111,10 +95,9 @@ export default function ViewTracks({ tracks, timeframe }) {
                 ))}
                 </Row>
             </Container>
-            
         </div>
         </DynamicBackground>
     )
 }
 
-ViewTracks.propTypes = { tracks: PropTypes.object.isRequired, timeframe: PropTypes.string.isRequired };
+ViewTracks.propTypes = { tracks: PropTypes.object.isRequired };
