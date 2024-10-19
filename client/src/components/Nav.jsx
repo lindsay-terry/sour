@@ -33,14 +33,14 @@ export default function Navigation({ accessToken }) {
     }
 
     return (
-        <Navbar expand="sm" >
+        <Navbar expand="md" >
             <Container >
                 <Navbar.Toggle aria-controls="basic-navbar-nav" data-bs-theme="dark" />
                 <Navbar.Collapse id="basic-navbar-nav" >
                     <Nav className="d-flex">
                         {!accessToken? 
                         (
-                            <Nav.Link onClick={getAccessToken}>Login with Spotify</Nav.Link>  
+                            <Nav.Link className={'m-2'} style={styles.inactiveLink} onClick={getAccessToken}>Login with Spotify</Nav.Link>  
                         ) : null }
                         <Nav.Link href='/' className={'m-2'} style={location.pathname === '/' ? styles.activeLink : styles.inactiveLink}>Home</Nav.Link>
                         <Nav.Link href='/top-tracks' className={'m-2'} style={location.pathname === '/top-tracks' ? styles.activeLink : styles.inactiveLink}>Top Tracks</Nav.Link>
