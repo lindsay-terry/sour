@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
+import { FaSpotify } from "react-icons/fa6";
 
 export default function Navigation({ accessToken }) {
 
@@ -40,7 +41,7 @@ export default function Navigation({ accessToken }) {
                     <Nav className="d-flex">
                         {!accessToken? 
                         (
-                            <Nav.Link className={'m-2'} style={styles.inactiveLink} onClick={getAccessToken}>Login with Spotify</Nav.Link>  
+                            <Nav.Link className={'m-2'} style={styles.inactiveLink} onClick={getAccessToken}>Login with Spotify <FaSpotify /></Nav.Link>  
                         ) : null }
                         <Nav.Link href='/' className={'m-2'} style={location.pathname === '/' ? styles.activeLink : styles.inactiveLink}>Home</Nav.Link>
                         <Nav.Link href='/top-tracks' className={'m-2'} style={location.pathname === '/top-tracks' ? styles.activeLink : styles.inactiveLink}>Top Tracks</Nav.Link>
