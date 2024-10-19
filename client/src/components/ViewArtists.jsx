@@ -8,7 +8,7 @@ import Col from 'react-bootstrap/Col';
 import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
 
-export default function ViewArtists({ artists, timeframe}) {
+export default function ViewArtists({ artists }) {
     console.log(artists);
     const styles = {
         cardImage: {
@@ -31,24 +31,9 @@ export default function ViewArtists({ artists, timeframe}) {
         }
     }, [artists]);
 
-    let heading;
-    // Switch/Case to handle heading based on timeframe of query
-    switch (timeframe) {
-        case 'long_term':
-            heading = 'All-Time Top Artists';
-            break;
-        case 'medium_term':
-            heading = 'Top Artists Last 6 Months';
-            break;
-        case 'short_term':
-            heading = 'Top Artists This Month';
-            break;
-    }
-
     return (
         <DynamicBackground image={imageUrl} >
             <div className='d-flex flex-column align-items-center'>
-                <h1>{heading}</h1>
                 <Container>
                     <Row>
                         {artists.map((artist, index) => (
@@ -88,4 +73,4 @@ export default function ViewArtists({ artists, timeframe}) {
     )
 }
 
-ViewArtists.propTypes = { artists: PropTypes.array.isRequired, timeframe: PropTypes.string.isRequired };
+ViewArtists.propTypes = { artists: PropTypes.array.isRequired };
