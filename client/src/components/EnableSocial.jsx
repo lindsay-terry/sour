@@ -1,12 +1,16 @@
 import { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
+import { FaSpotify } from "react-icons/fa6";
 import { useNavigate } from 'react-router-dom';
+import ConfirmSocial from './ConfirmSocial';
 import Auth from '../utils/auth';
 
 export default function EnableSocial() {
     // State to manage Spotify Access Token
     const [accessToken, setAccessToken] = useState(null);
     const [showModal, setShowModal] = useState(false);
+    // const [user, setUser] = useState([]);
+    // const [agreeClicked, setAgreeClicked] = useState(false);
 
     const navigate = useNavigate();
 
@@ -16,7 +20,6 @@ export default function EnableSocial() {
             navigate('/');
         } else {
             const token = Auth.getToken();
-            console.log(token);
             setAccessToken(token.token)
         }
     }, [navigate])
@@ -33,19 +36,45 @@ export default function EnableSocial() {
     const handleShow = () => setShowModal(true);
     const handleClose = () => setShowModal(false);
 
-    const handleAgree = () => {
+    const handleAgree = async () => {
+        if (accessToken) {
+            try {
+                // const response = await fetch('https://api.spotify.com/v1/me', {
+                //     method: 'GET',
+                //     headers: {
+                //         'Authorization': `Bearer ${accessToken}`
+                //     }
+                // });
+                // if (!response.ok) {
+                //     throw new Error('Error fetching user data');
+                // }
+                // const data = await response.json();
+                // setUser(data);
+                // handleClose();
+                // setAgreeClicked(true);
+                window.location.href = '/signup'
+            } catch (error) {
+                console.error('Error fetching user data', error);
+            }
+        }
+    };
 
-    }
+    // useEffect(() => {
+    //     console.log(user);
+    // }, [user])
 
     return (
         <div className={'m-3 p-4'}>
             <h2>Share with Friends!</h2>
-            <p>Click below to enable friend sharing and see what your friends top tracks and artists are!</p>
-            {/* <Button className={`btn btn-success ${accessToken ? '' : 'disabled'}`} onClick={handleShow}>{accessToken ? 'Enable Friend Sharing' : 'Log in With Spotify'}</Button> */}
+            {accessToken ? (
+                <p>Click below to enable friend sharing and see what your friends top tracks and artists are!</p>
+            ) : (
+                <p>Login with Spotify and enable friend sharing to see what your friends are listening to!</p>
+            )}
             {accessToken ? (
                 <Button className={'btn btn-success'} onClick={handleShow}>Enable Friend Sharing</Button>    
             ) : (
-                <Button className={'btn btn-success'} onClick={getAccessToken}>Login With Spotify</Button>
+                <Button className={'btn btn-success'} onClick={getAccessToken}>Login With Spotify <FaSpotify /></Button>
             ) }
             <div className={`modal fade  ${showModal ? 'show' : ''}`} style={{ display: showModal ? 'block' : 'none' }} tabIndex={"-1"} aria-labelledby="consentModalLabel" aria-hidden={!showModal}>
                 <div className={"modal-dialog"}>
@@ -63,22 +92,24 @@ export default function EnableSocial() {
                                 <strong>Data Collection</strong>: I authorize Sour to save my top 10 artists and top 10 songs from my Spotify account for the purpose of sharing this information with friends I approve.
                             </li>
                             <li>
-                                <strong>Username Sharing</strong>: I authorize Sour to use my Spotify username alongside my shared top tracks and artists.
+                                <strong>Profile Sharing</strong>: I authorize Sour to use my Spotify username and profile photo alongside my shared top tracks and artists.
                             </li>
                             <li>
                                 <strong>Friend Sharing</strong>: I understand that my Spotify data will be shared only with friends I have selected and approved.
+                            </li>
+                            <li>
+                                <strong>Note</strong>: Sour will never store your Spotify password or ask for it, except when using third-party authentication with Spotify.
                             </li>
                         </ol>
                         <p>I acknolwedge that I can revoke my consent at any time by accessing the &quot;Settings&quot; menu and selecting &quot;Delete Account&quot;</p>
                     </div>
                     <div className={"modal-footer"}>
                         <button type="button" className={"btn btn-secondary"} onClick={handleClose}>Decline</button>
-                        <button type="button" className={"btn btn-primary"} onClick={handleAgree}> Agree</button>
+                        <button type="button" className={"btn btn-success"} onClick={handleAgree}> Agree</button>
                     </div>
                     </div>
                 </div>
             </div>
-
         </div>
     )
 }

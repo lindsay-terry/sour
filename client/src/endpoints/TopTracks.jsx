@@ -12,7 +12,6 @@ export default function TopTracks() {
             fontSize: '300%',
         },
         heading: {
-            backgroundColor: 'var(--gunmetal)',
             color: 'var(--chartreuse',
             textShadow: '2px 2px 2px var(--smoky-black)',
         },
@@ -78,7 +77,7 @@ export default function TopTracks() {
         if (accessToken) {
             try {
                 // Fetch tracks based on timeRange to query
-                const response = await fetch(`https:////api.spotify.com/v1/me/top/tracks?time_range=${timeRange}`, {
+                const response = await fetch(`https://api.spotify.com/v1/me/top/tracks?time_range=${timeRange}`, {
                     method: 'GET',
                     headers: {
                         'Authorization': `Bearer ${accessToken}`

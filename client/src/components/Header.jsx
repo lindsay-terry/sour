@@ -8,7 +8,6 @@ export default function Header({ accessToken, setAccessToken }) {
             fontFamily: 'Gloria Hallelujah, cursive',
         },
         header: {
-            backgroundColor: 'var(--gunmetal)',
             color: 'var(--chartreuse)',
             borderBottom: '1px solid var(--chartreuse)'
         }

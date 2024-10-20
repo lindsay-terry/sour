@@ -9,10 +9,6 @@ import Auth from '../utils/auth';
 
 export default function Home() {
   const styles = {
-      main: {
-        backgroundColor: 'var(--gunmetal)',
-        // height: '100vh',
-      },
       icons: {
         color: 'var(--razzle-dazzle-rose)',
         fontSize: '430%'
@@ -40,7 +36,7 @@ export default function Home() {
   // }, [navigate])
 
     return (
-        <div style={styles.main} className={'d-flex flex-column align-items-center'}>
+        <div className={'d-flex flex-column align-items-center'}>
           <div className={'m-3 p-3'}>
             <Container style={styles.text} className={'m-3 p-4 d-flex align-items-center border rounded'}>
               <FaUserFriends style={styles.icons} />
