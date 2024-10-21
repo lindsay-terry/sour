@@ -6,6 +6,7 @@ import Error from './endpoints/Error';
 import Home from './endpoints/Home';
 import TopTracks from './endpoints/TopTracks';
 import TopArtists from './endpoints/TopArtists';
+import Signup from './endpoints/Signup';
 
 const router = createBrowserRouter([
     {
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
             {
                 path: '/callback',
                 element: <Callback />
+            },
+            {
+                path: '/signup',
+                element: <Signup />
             },
             {
                 path: '/top-tracks',

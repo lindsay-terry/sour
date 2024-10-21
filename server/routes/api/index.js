@@ -1,6 +1,7 @@
-// const router = require('express').Router();
-// const spotifyRoutes = require('./spotifyRoutes');
+const router = require('express').Router();
+const userRoutes = require('./userRoutes');
 
-// // /api endpoint
+// /api endpoint
+router.use('/users', userRoutes);
 
-// module.exports = router;
+module.exports = router;

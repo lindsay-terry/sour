@@ -12,7 +12,6 @@ export default function TopArtists() {
             fontSize: '300%',
         },
         heading: {
-            backgroundColor: 'var(--gunmetal)',
             color: 'var(--chartreuse',
             textShadow: '2px 2px 2px var(--smoky-black)',
         },
