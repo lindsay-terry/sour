@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+// import { useState, useEffect } from 'react';
+// import { useNavigate } from 'react-router-dom';
 import { FaRecordVinyl } from "react-icons/fa6";
 import { BsPersonSquare } from "react-icons/bs";
 import Container from 'react-bootstrap/Container';
@@ -18,29 +18,17 @@ export default function Home() {
       }
     }
 
-    
-
-    // State to manage Spotify Access Token
-    // const [accessToken, setAccessToken] = useState(null);
-
-    // const navigate = useNavigate();
-
-  //   useEffect(() => {
-  //     if (Auth.isTokenExpired()) {
-  //         console.log('Token Expired');
-  //         navigate('/');
-  //     } else {
-  //         const token = Auth.getToken();
-  //         setAccessToken(token.token)
-  //     }
-  // }, [navigate])
-
     return (
         <div className={'d-flex flex-column align-items-center'}>
           <div className={'m-3 p-3'}>
             <Container style={styles.text} className={'m-3 p-4 d-flex align-items-center border rounded'}>
               <FaUserFriends style={styles.icons} />
-              <EnableSocial />
+              {Auth.loggedIn() ? (
+                <p>logged in</p>
+              ) : (
+                <EnableSocial />
+              )}
+
             </Container>
             <Container className={'m-3 p-4 d-flex align-items-center border rounded'}>
               <FaRecordVinyl style={styles.icons}/>

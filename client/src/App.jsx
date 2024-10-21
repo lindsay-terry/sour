@@ -6,12 +6,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Auth from './utils/auth';
 
 export default function App() {
-  const styles = {
-    main: {
-      backgroundColor: 'var(--gunmetal)',
-    }
-  }
-
   const [accessToken, setAccessToken] = useState(null);
 
   useEffect(() => {
@@ -24,7 +18,7 @@ export default function App() {
   }, [])
 
   return (
-    <div style={styles.main}>
+    <div>
       <Header accessToken={accessToken} setAccessToken={setAccessToken}/>
       <Outlet /> 
       <Footer />       

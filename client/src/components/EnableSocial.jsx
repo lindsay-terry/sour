@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import { FaSpotify } from "react-icons/fa6";
 import { useNavigate } from 'react-router-dom';
-import ConfirmSocial from './ConfirmSocial';
+// import ConfirmSocial from './ConfirmSocial';
 import Auth from '../utils/auth';
 
 export default function EnableSocial() {
@@ -39,29 +39,12 @@ export default function EnableSocial() {
     const handleAgree = async () => {
         if (accessToken) {
             try {
-                // const response = await fetch('https://api.spotify.com/v1/me', {
-                //     method: 'GET',
-                //     headers: {
-                //         'Authorization': `Bearer ${accessToken}`
-                //     }
-                // });
-                // if (!response.ok) {
-                //     throw new Error('Error fetching user data');
-                // }
-                // const data = await response.json();
-                // setUser(data);
-                // handleClose();
-                // setAgreeClicked(true);
                 window.location.href = '/signup'
             } catch (error) {
                 console.error('Error fetching user data', error);
             }
         }
     };
-
-    // useEffect(() => {
-    //     console.log(user);
-    // }, [user])
 
     return (
         <div className={'m-3 p-4'}>

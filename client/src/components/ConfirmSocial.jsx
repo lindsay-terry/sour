@@ -16,9 +16,9 @@ export default function ConfirmSocial({ userData }) {
         <div style={styles.main}>
             {userData ? ( 
             <Container className={'d-flex flex-column align-items-center p-4'}>
-                <h2>Does this information look correct?</h2>
+                <h2 className={'p-2 m-2'}>Does this information look correct?</h2>
                 <div className={'border rounded p-4 m-2'}>
-                    <div className={'d-flex align-items-center'}>
+                    <div className={'d-flex align-items-center m-2'}>
                         <img className={'mx-2'} style={styles.avatarImage} alt={`Avatar image of ${userData.display_name}`} src={userData.images[1].url}></img>
                         <p>Display Name: <strong>{userData.display_name}</strong></p>
                     </div>
@@ -32,4 +32,4 @@ export default function ConfirmSocial({ userData }) {
     )
 }
 
-ConfirmSocial.propTypes = { userData: PropTypes.object.isRequired };
+ConfirmSocial.propTypes = { userData: PropTypes.object };
