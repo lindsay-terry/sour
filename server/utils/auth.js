@@ -29,6 +29,7 @@ module.exports = {
     },
     signToken({ username, _id, spotify_id }) {
         const payload = { username, _id, spotify_id };
+        console.log('PAYLOAD:', payload);
 
         return jwt.sign({ data: payload }, secret, { expiresIn: expiration });
     },

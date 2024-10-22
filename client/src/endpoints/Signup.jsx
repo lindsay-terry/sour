@@ -12,10 +12,11 @@ export default function Signup() {
       }
     const [accessToken, setAccessToken] = useState(null);
     const [user, setUser] = useState(null);
+    // eslint-disable-next-line no-unused-vars
     const [agreeClicked, setAgreeClicked] = useState(false);
 
     const navigate = useNavigate();
-
+    // Check if Spotify Token is expired
     useEffect(() => {
         if (Auth.isTokenExpired()) {
             console.log('Token Expired');
@@ -28,6 +29,7 @@ export default function Signup() {
 
     const fetchUserData = async () => {
         try {
+            // Fetch request to gather data of user authenticated with Spotify
             const response = await fetch('https://api.spotify.com/v1/me', {
                 method: 'GET',
                 headers: {
@@ -57,14 +59,15 @@ export default function Signup() {
     };
 
     const handleConfirm = async () => {
+            // Gather variables retrieved from fetching spotify data of logged in user
         const variables = {
             username: user.display_name,
             external_url: user.external_urls.spotify,
             profile_image: user.images[0].url,
             spotify_id: user.id,
         };
-        console.log('VARIABLES', variables);
         try {
+            // Apply variables to POST request to /api/users endpoint which is path to create new user
             const response = await fetch('/api/users', {
                 method: 'POST',
                 headers: {
@@ -72,17 +75,17 @@ export default function Signup() {
                 },
                 body: JSON.stringify(variables),
             });
-            console.log('RESPONSE', response);
             if (!response.ok) {
                 const errorData = await response.json();
                 throw new Error(errorData.error);
             }
             const data = await response.json();
-            console.log('User created:', data);
-            Auth.login(data.createUser.token)
+            // Assign JWT Token
+            Auth.login(data.token)
+            // Load home component
             window.location.href='/';
         } catch (error) {
-            console.error(error);
+            console.error(error, 'Error response from server, failed to create new user.');
         }
     }
 

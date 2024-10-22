@@ -26,13 +26,15 @@ class AuthService {
     }
 
     // JWT Token
+    // Get data of user logged in from JWT Token payload
     getProfile() {
-        return decode(this.getToken());
+        return decode(this.getJWTToken());
     }
 
+    // Check if logged in with JWT token
     loggedIn() {
-        const token = this.getToken();
-        return token && !this.isTokenExpired(token) ? true : false;
+        const token = this.getJWTToken();
+        return token && !this.isJWTTokenExpired(token) ? true : false;
     }
 
     isJWTTokenExpired(token) {
@@ -45,7 +47,9 @@ class AuthService {
     }
 
     getJWTToken() {
-        return localStorage.getItem('id_token');
+        const JWTToken = localStorage.getItem('id_token');
+        return JWTToken;
+        // return localStorage.getItem('id_token');
     }
 
     login(idToken) {
