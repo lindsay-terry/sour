@@ -59,6 +59,8 @@ class AuthService {
 
     logout() {
         localStorage.removeItem('id_token');
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('accessTokenExpiration');
         window.location.reload();
     }  
 

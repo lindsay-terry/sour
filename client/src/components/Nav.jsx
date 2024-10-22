@@ -3,7 +3,9 @@ import { useLocation } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
+import NavDropdown from 'react-bootstrap/NavDropdown';
 import { FaSpotify } from "react-icons/fa6";
+import Auth from '../utils/auth';
 
 export default function Navigation({ accessToken }) {
 
@@ -19,6 +21,11 @@ export default function Navigation({ accessToken }) {
         },
         menuBox: {
             color: 'var(--chartreuse)',
+        },
+        dropdown: {
+            fontWeight: 'bold',
+            fontSize: '120%',
+            color: 'var(--chartreuse)',
         }
     }
 
@@ -31,6 +38,10 @@ export default function Navigation({ accessToken }) {
         const scope = encodeURIComponent('user-top-read');
 
         window.location.href = `https://accounts.spotify.com/authorize?client_id=${clientId}&response_type=token&redirect_uri=${redirectUri}&scope=${scope}`;
+    }
+
+    const handleLogout = () => {
+        Auth.logout();
     }
 
     return (
@@ -46,6 +57,13 @@ export default function Navigation({ accessToken }) {
                         <Nav.Link href='/' className={'m-2'} style={location.pathname === '/' ? styles.activeLink : styles.inactiveLink}>Home</Nav.Link>
                         <Nav.Link href='/top-tracks' className={'m-2'} style={location.pathname === '/top-tracks' ? styles.activeLink : styles.inactiveLink}>Top Tracks</Nav.Link>
                         <Nav.Link href='/top-artists' className={'m-2'} style={location.pathname === '/top-artists' ? styles.activeLink : styles.inactiveLink}>Top Artists</Nav.Link>
+                        {Auth.loggedIn()? (
+                            <NavDropdown id='nav-dropdown' title={<span style={{ color: 'var(--razzle-dazzle-rose)' }}>Settings</span>} style={styles.dropdown} className={'m-2'} menuVariant="dark">
+                                <NavDropdown.Item onClick={handleLogout} className={'p-3 m-1'}>Logout</NavDropdown.Item>
+                                <NavDropdown.Item className={'p-3 m-1'}>My Profile</NavDropdown.Item>
+                                <NavDropdown.Item className={'p-3 m-1'}>Toggle Light/Dark Mode</NavDropdown.Item>
+                            </NavDropdown>
+                        ) : ''}
                     </Nav>
                 </Navbar.Collapse>
             </Container>
