@@ -59,16 +59,17 @@ export default function TopTracks() {
     useEffect(() => {
         switch(index) {
             case 0:
-                setHeading('Top Tracks - Last 12 Months');
-                setTimeRange('long_term');
+
+                setHeading('Top Tracks This Month');
+                setTimeRange('short_term');
                 break;
             case 1:
                 setHeading('Top Tracks - Last 6 Months');
                 setTimeRange('medium_term');
                 break;
             case 2:
-                setHeading('Top Tracks This Month');
-                setTimeRange('short_term');
+                setHeading('Top Tracks - Last 12 Months');
+                setTimeRange('long_term');
                 break;
         };
     }, [index])

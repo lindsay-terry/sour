@@ -1,5 +1,3 @@
-// import { useState, useEffect } from 'react';
-// import { useNavigate } from 'react-router-dom';
 import { FaRecordVinyl } from "react-icons/fa6";
 import { BsPersonSquare } from "react-icons/bs";
 import Container from 'react-bootstrap/Container';
@@ -23,13 +21,15 @@ export default function Home() {
           <div className={'m-3 p-3'}>
             <Container style={styles.text} className={'m-3 p-4 d-flex align-items-center border rounded'}>
               <FaUserFriends style={styles.icons} />
-              {Auth.loggedIn() ? (
-                <p>logged in</p>
+              {/* If user authenticated with both Spotify token and JWT Token, show welcome username */}
+              {Auth.loggedIn() && Auth.getProfile() ? (
+                <h4 className={'m-3 p-4'}>Welcome, {Auth.getProfile().data.username}! </h4>
               ) : (
+                // If user is not authenticated with JWT, show component to enable social features
                 <EnableSocial />
               )}
-
             </Container>
+            {/* These two containers below remain consistent regardless */}
             <Container className={'m-3 p-4 d-flex align-items-center border rounded'}>
               <FaRecordVinyl style={styles.icons}/>
                 <div className={'m-3 p-4'} style={styles.text}>
