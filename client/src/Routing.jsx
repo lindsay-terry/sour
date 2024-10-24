@@ -7,6 +7,7 @@ import Home from './endpoints/Home';
 import TopTracks from './endpoints/TopTracks';
 import TopArtists from './endpoints/TopArtists';
 import Signup from './endpoints/Signup';
+import Profile from './endpoints/Profile';
 
 const router = createBrowserRouter([
     {
@@ -33,7 +34,11 @@ const router = createBrowserRouter([
             {
                 path: '/top-artists',
                 element: <TopArtists />
-            }
+            },
+            {
+                path: '/profile',
+                element: <Profile />
+            },
         ]
     }
 ]);

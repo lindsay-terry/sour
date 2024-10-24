@@ -60,7 +60,7 @@ export default function Navigation({ accessToken }) {
                         {Auth.loggedIn()? (
                             <NavDropdown id='nav-dropdown' title={<span style={{ color: 'var(--razzle-dazzle-rose)' }}>Settings</span>} style={styles.dropdown} className={'m-2'} menuVariant="dark">
                                 <NavDropdown.Item onClick={handleLogout} className={'p-3 m-1'}>Logout</NavDropdown.Item>
-                                <NavDropdown.Item className={'p-3 m-1'}>My Profile</NavDropdown.Item>
+                                <NavDropdown.Item className={'p-3 m-1'} href='/profile'>My Profile</NavDropdown.Item>
                                 <NavDropdown.Item className={'p-3 m-1'}>Toggle Light/Dark Mode</NavDropdown.Item>
                             </NavDropdown>
                         ) : ''}

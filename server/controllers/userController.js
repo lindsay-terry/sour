@@ -1,4 +1,4 @@
-const { User } = require('../models');
+const { User, Track } = require('../models');
 const { signToken } = require('../utils/auth');
 
 module.exports = {
@@ -20,7 +20,6 @@ module.exports = {
     async sourLogin(req, res) {
         try {
             const { spotify_id } = req.body
-            console.log('REQ BODY FROM SOUR LOGIN', req.body)
             const user = await User.findOne({ spotify_id });
 
             if (!user) {
@@ -31,6 +30,50 @@ module.exports = {
             return res.status(200).json({ token, user });
         } catch (error) {
             console.error('Login error,', error.message)
+        }
+    },
+
+    async getUserProfile(req, res) {
+        const { spotifyId } = req.params
+        console.log('REQ BODY FROM GETUSERPROFILE', req.params)
+        try {
+            const user = await User.findOne({ spotify_id: spotifyId });
+
+            if (!user) {
+                return res.status(404).json({ message: 'User not found with that Spotify ID' });
+            }
+
+            return res.status(200).json(user);
+        } catch (error) {
+            console.error('Error fetching user profile', error);
+            return res.status(500).json({ message: 'Internal server error, error fetching user profile.' });
+        }
+    },
+
+    async addTopTracks(req, res) {
+        const { spotify_id, topTracks } = req.body;
+        try {
+            const user = await User.findOne({ spotify_id });
+            if (!user) {
+                return res.status(404).json({ message: 'User not found with that Spotify ID.' });
+            }
+            const trackIds = [];
+
+            for (const trackData of topTracks) {
+                let track = await Track.findOne({ name: trackData.name, artist: { $in: trackData.artist.map(artist => artist.name) } });
+                if (!track) {
+                    track = await Track.create(trackData);
+                }
+                trackIds.push(track._id);
+            }
+
+            user.top_tracks = [...new Set([...trackIds, ...user.top_tracks])].slice(0, 20);
+            await user.save();
+
+            return res.status(200).json(user);
+        } catch (error) {
+            console.error('Error saving top tracks', error);
+            return res.status(500).json({ message: 'Server error saving track data.' });
         }
     }
 }
