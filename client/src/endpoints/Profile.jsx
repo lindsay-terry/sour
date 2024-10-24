@@ -5,6 +5,8 @@ import Col from 'react-bootstrap/Col';
 import Image from 'react-bootstrap/Image';
 import Auth from '../utils/auth';
 import Unauthorized from '../components/Unauthorized';
+import SharedTracks from '../components/SharedTracks';
+import SharedArtists from '../components/SharedArtists';
 
 export default function Profile() {
     const styles={
@@ -28,7 +30,6 @@ export default function Profile() {
                 }
                 const data = await response.json();
                 setUser(data);
-                // console.log(user);
             } catch (error) {
                 console.error('Error fetching user data', error);
             }
@@ -51,7 +52,7 @@ export default function Profile() {
                     <Col xs={12} sm={12} md={6} lg={6} xl={6}>
                         <div>Top Tracks</div>
                         {user.top_tracks.length > 0 ? (
-                            <p>Top tracks here</p>
+                        <SharedTracks userId={Auth.getProfile().data.spotify_id}/>
                         ) : (
                             <div>
                             <p>You have no tracks saved!</p>
@@ -61,7 +62,7 @@ export default function Profile() {
                         )}
                     </Col>
                     <Col xs={12} sm={12} md={6} lg={6} xl={6}>
-                        <div>Top Artists</div>
+                        <SharedArtists userId={Auth.getProfile().data.spotify_id}/>
                         {user.top_artists.length > 0 ? (
                             <p>Top Artists here</p>
                         ) : (

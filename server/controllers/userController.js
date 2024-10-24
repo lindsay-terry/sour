@@ -105,4 +105,38 @@ module.exports = {
             return res.status(500).json({ message: 'Server error saving artist data.' });
         }
     },
+
+    async getUserTracks(req, res) {
+        const { userId } = req.params;
+        try {
+            const user = await User.findOne({ spotify_id: userId }).populate('top_tracks');
+
+            if (!user) {
+                return res.status(404).json({ message: 'User not found!' });
+            }
+
+            const tracks = user.top_tracks;
+            return res.status(200).json(tracks);
+        } catch (error) {
+            console.error('Error retrieving user tracks', error);
+            return res.status(500).json({ message: 'Server error retrieving track data.' });
+        }
+    },
+
+    async getUserArtists(req, res) {
+        const { userId } = req.params;
+        try {
+            const user = await User.findOne({ spotify_id: userId }).populate('top_artists');
+
+            if (!user) {
+                return res.status(404).json({ message: 'User not found!' });
+            }
+
+            const artists = user.top_artists;
+            return res.status(200).json(artists);
+        } catch (error) {
+            console.error('Error retrieving user artists', error);
+            return res.status(500).json({ message: 'Server error retrieving artist data.' });
+        }
+    }
 }

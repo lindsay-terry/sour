@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Auth from '../utils/auth';
 
 export default function SaveArtists({ artists }) {
-    // console.log('ARTISTS TO SAVE', artists);
+
     const handleSaveArtists = async () => {
         const userId = Auth.getProfile().data.spotify_id;
         console.log(userId);
@@ -15,9 +15,9 @@ export default function SaveArtists({ artists }) {
                 external_url: artist.external_urls.spotify,
                 genres: artist.genres,
             }));
-            // console.log('TOP ARTISTS', topArtists);
+
             try {
-                const response = await fetch('/api/users/addTopArtists', {
+                const response = await fetch('/api/users/topArtists', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -38,7 +38,7 @@ export default function SaveArtists({ artists }) {
 
     return (
         <div>
-            <Button variant="light" onClick={handleSaveArtists}>Update Saved Tracks</Button>
+            <Button variant="light" onClick={handleSaveArtists}>Update Saved Artists</Button>
         </div>
     )
 }

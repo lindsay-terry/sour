@@ -25,7 +25,7 @@ export default function SaveTracks({ tracks }) {
             }));
         console.log('TOP TRACKS:', topTracks);
             try {
-                const response = await fetch('/api/users/addTopTracks', {
+                const response = await fetch('/api/users/topTracks', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
