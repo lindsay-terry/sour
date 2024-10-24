@@ -102,24 +102,24 @@ export default function TopTracks() {
 
     return (
         <div style={styles.heading} className={'p-1'}>
-        <div className={'d-flex flex-column justify-content-between align-items-center'}>
-            <div className={'d-flex justify-content-center align-items-center flex-grow-1'}>
-                <Button variant="outline-secondary" onClick={toggleLeft}>
-                    <PiArrowFatLinesLeft style={styles.icon} />
-                </Button>
-                <h2 className={'mx-3 fs-4'}>{heading}</h2>
-                <Button variant="outline-secondary" onClick={toggleRight}>
-                    <PiArrowFatLinesRight style={styles.icon} />
-                </Button>
+            <div className={'d-flex flex-column justify-content-between align-items-center'}>
+                <div className={'d-flex justify-content-center align-items-center flex-grow-1'}>
+                    <Button variant="outline-secondary" onClick={toggleLeft}>
+                        <PiArrowFatLinesLeft style={styles.icon} />
+                    </Button>
+                    <h2 className={'mx-3 fs-4'}>{heading}</h2>
+                    <Button variant="outline-secondary" onClick={toggleRight}>
+                        <PiArrowFatLinesRight style={styles.icon} />
+                    </Button>
+                </div>
+                {Auth.loggedIn() ? (
+                <div>
+                    <SaveTracks tracks={tracklist.items}/>
+                </div>
+                ) : '' }
             </div>
-            {Auth.loggedIn() ? (
-            <div>
-                <SaveTracks tracks={tracklist.items}/>
-            </div>
-            ) : '' }
-        </div>
 
-        <ViewTracks tracks={tracklist} />
-    </div>
+            <ViewTracks tracks={tracklist} />
+        </div>
     )
 }

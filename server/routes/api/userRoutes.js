@@ -4,6 +4,7 @@ const {
     sourLogin,
     getUserProfile,
     addTopTracks,
+    addTopArtists,
 } = require('../../controllers/userController');
 
 // /api/users endpoint to create new user
@@ -17,6 +18,9 @@ router.route('/:spotifyId').get(getUserProfile);
 
 // /api/users/addTopTracks
 router.route('/addTopTracks').post(addTopTracks)
+
+// /api/users/addTopArtists
+router.route('/addTopArtists').post(addTopArtists);
 
 
 module.exports = router;

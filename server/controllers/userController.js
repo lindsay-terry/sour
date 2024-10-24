@@ -1,4 +1,4 @@
-const { User, Track } = require('../models');
+const { User, Track, Artist } = require('../models');
 const { signToken } = require('../utils/auth');
 
 module.exports = {
@@ -66,7 +66,7 @@ module.exports = {
                 }
                 trackIds.push(track._id);
             }
-
+            // overwrite tracks so there are only 20 at a time
             user.top_tracks = [...new Set([...trackIds, ...user.top_tracks])].slice(0, 20);
             await user.save();
 
@@ -75,5 +75,34 @@ module.exports = {
             console.error('Error saving top tracks', error);
             return res.status(500).json({ message: 'Server error saving track data.' });
         }
-    }
+    },
+
+    async addTopArtists(req, res) {
+        const { spotify_id, topArtists } = req.body;
+  
+        try {
+            const user = await User.findOne({ spotify_id });
+
+            if (!user) {
+                return res.status(404).json({ message: 'User not found with that Spotify ID.' });
+            }
+
+            const artistIds = [];
+
+            for (const artistData of topArtists) {
+                let artist = await Artist.findOne({ name: artistData.name });
+                if (!artist) {
+                    artist = await Artist.create(artistData);
+                }
+                artistIds.push(artist._id);
+            }
+            // Overwrite artists so there are only 20 at a time
+            user.top_artists = [...new Set(artistIds)].slice(0, 20);
+            await user.save();
+            return res.status(200).json(user);
+        } catch (error) {
+            console.error('Error saving top artists', error);
+            return res.status(500).json({ message: 'Server error saving artist data.' });
+        }
+    },
 }

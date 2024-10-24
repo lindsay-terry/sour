@@ -28,7 +28,7 @@ export default function Profile() {
                 }
                 const data = await response.json();
                 setUser(data);
-                console.log(user);
+                // console.log(user);
             } catch (error) {
                 console.error('Error fetching user data', error);
             }
@@ -65,7 +65,7 @@ export default function Profile() {
                         {user.top_artists.length > 0 ? (
                             <p>Top Artists here</p>
                         ) : (
-                            <p>you have no top artists saved</p>
+                            <p>Click <a href='/top-artists'>here</a> or go to your top artists to update the artists you have saved to your profile!</p>
                         )}
                     </Col>
                 </Row>
