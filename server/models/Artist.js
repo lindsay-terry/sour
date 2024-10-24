@@ -6,6 +6,7 @@ const artistSchema = new Schema(
         image: { type: String },
         popularity: { type: Number },
         genres: [{ type: String },],
+        external_url: { type: String },
     },
 );
 

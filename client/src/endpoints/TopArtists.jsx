@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import { PiArrowFatLinesLeft, PiArrowFatLinesRight } from "react-icons/pi";
 import ViewArtists from '../components/ViewArtists';
+import SaveArtists from '../components/SaveArtists';
 import Auth from '../utils/auth';
 
 export default function TopArtists() {
@@ -99,14 +100,21 @@ export default function TopArtists() {
 
     return (
         <div style={styles.heading} className={'p-1'}>
-            <div className={'d-flex justify-content-center align-items-center p-2' }>
-                <Button variant="outline-secondary" onClick={toggleLeft}>
-                    <PiArrowFatLinesLeft style={styles.icon}/>
-                </Button>
-                <h2 className={'mx-3 fs-4'}>{heading}</h2>
-                <Button variant="outline-secondary" onClick={toggleRight}>
-                    <PiArrowFatLinesRight style={styles.icon}/>
-                </Button>
+            <div className={'d-flex flex-column justify-content-between align-items-center'}>
+                <div className={'d-flex justify-content-center align-items-center flex-grow-1'}>
+                    <Button variant="outline-secondary" onClick={toggleLeft}>
+                        <PiArrowFatLinesLeft style={styles.icon}/>
+                    </Button>
+                    <h2 className={'mx-3 fs-4'}>{heading}</h2>
+                    <Button variant="outline-secondary" onClick={toggleRight}>
+                        <PiArrowFatLinesRight style={styles.icon}/>
+                    </Button>
+                </div>
+                {Auth.loggedIn() ? (
+                <div>
+                    <SaveArtists artists={artistList.items}/>
+                </div>
+                ) : '' }
             </div>
 
             <ViewArtists artists={artistList.items}/>

@@ -1,4 +1,4 @@
-const { User } = require('../models');
+const { User, Track, Artist } = require('../models');
 const { signToken } = require('../utils/auth');
 
 module.exports = {
@@ -20,7 +20,6 @@ module.exports = {
     async sourLogin(req, res) {
         try {
             const { spotify_id } = req.body
-            console.log('REQ BODY FROM SOUR LOGIN', req.body)
             const user = await User.findOne({ spotify_id });
 
             if (!user) {
@@ -31,6 +30,113 @@ module.exports = {
             return res.status(200).json({ token, user });
         } catch (error) {
             console.error('Login error,', error.message)
+        }
+    },
+
+    async getUserProfile(req, res) {
+        const { spotifyId } = req.params
+        console.log('REQ BODY FROM GETUSERPROFILE', req.params)
+        try {
+            const user = await User.findOne({ spotify_id: spotifyId });
+
+            if (!user) {
+                return res.status(404).json({ message: 'User not found with that Spotify ID' });
+            }
+
+            return res.status(200).json(user);
+        } catch (error) {
+            console.error('Error fetching user profile', error);
+            return res.status(500).json({ message: 'Internal server error, error fetching user profile.' });
+        }
+    },
+
+    async addTopTracks(req, res) {
+        const { spotify_id, topTracks } = req.body;
+        try {
+            const user = await User.findOne({ spotify_id });
+            if (!user) {
+                return res.status(404).json({ message: 'User not found with that Spotify ID.' });
+            }
+            const trackIds = [];
+
+            for (const trackData of topTracks) {
+                let track = await Track.findOne({ name: trackData.name, artist: { $in: trackData.artist.map(artist => artist.name) } });
+                if (!track) {
+                    track = await Track.create(trackData);
+                }
+                trackIds.push(track._id);
+            }
+            // overwrite tracks so there are only 20 at a time
+            user.top_tracks = [...new Set([...trackIds, ...user.top_tracks])].slice(0, 20);
+            await user.save();
+
+            return res.status(200).json(user);
+        } catch (error) {
+            console.error('Error saving top tracks', error);
+            return res.status(500).json({ message: 'Server error saving track data.' });
+        }
+    },
+
+    async addTopArtists(req, res) {
+        const { spotify_id, topArtists } = req.body;
+  
+        try {
+            const user = await User.findOne({ spotify_id });
+
+            if (!user) {
+                return res.status(404).json({ message: 'User not found with that Spotify ID.' });
+            }
+
+            const artistIds = [];
+
+            for (const artistData of topArtists) {
+                let artist = await Artist.findOne({ name: artistData.name });
+                if (!artist) {
+                    artist = await Artist.create(artistData);
+                }
+                artistIds.push(artist._id);
+            }
+            // Overwrite artists so there are only 20 at a time
+            user.top_artists = [...new Set(artistIds)].slice(0, 20);
+            await user.save();
+            return res.status(200).json(user);
+        } catch (error) {
+            console.error('Error saving top artists', error);
+            return res.status(500).json({ message: 'Server error saving artist data.' });
+        }
+    },
+
+    async getUserTracks(req, res) {
+        const { userId } = req.params;
+        try {
+            const user = await User.findOne({ spotify_id: userId }).populate('top_tracks');
+
+            if (!user) {
+                return res.status(404).json({ message: 'User not found!' });
+            }
+
+            const tracks = user.top_tracks;
+            return res.status(200).json(tracks);
+        } catch (error) {
+            console.error('Error retrieving user tracks', error);
+            return res.status(500).json({ message: 'Server error retrieving track data.' });
+        }
+    },
+
+    async getUserArtists(req, res) {
+        const { userId } = req.params;
+        try {
+            const user = await User.findOne({ spotify_id: userId }).populate('top_artists');
+
+            if (!user) {
+                return res.status(404).json({ message: 'User not found!' });
+            }
+
+            const artists = user.top_artists;
+            return res.status(200).json(artists);
+        } catch (error) {
+            console.error('Error retrieving user artists', error);
+            return res.status(500).json({ message: 'Server error retrieving artist data.' });
         }
     }
 }

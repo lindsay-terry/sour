@@ -47,7 +47,7 @@ export default function ViewTracks({ tracks }) {
             setImageUrl('');
         }
     }, [allTracks]);
-    console.log(allTracks);
+    // console.log(allTracks);
 
     return (
         <DynamicBackground image={imageUrl} >
